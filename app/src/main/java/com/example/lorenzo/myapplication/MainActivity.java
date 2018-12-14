@@ -1,6 +1,5 @@
 package com.example.lorenzo.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             emailET.setTextColor(getResources().getColor(R.color.lightBack));
             passwordET.setTextColor(getResources().getColor(R.color.lightBack));
             passwordET.setHintTextColor(getResources().getColor(R.color.lightBack));
-        }else if (!bool){
+        }else {
             homeLT.setBackgroundColor(getResources().getColor(R.color.lightBack));
             emailET.setHintTextColor(getResources().getColor(R.color.hint));
             emailET.setTextColor(getResources().getColor(R.color.black));
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             changeMode(nightSW.isChecked());
             SharedPreferences.Editor editor = getSharedPreferences("com.mobileapp.smartapplocker", MODE_PRIVATE).edit();
             editor.putBoolean("service_status", nightSW.isChecked());
-            editor.commit();
+            editor.apply();
         }
 
 
@@ -149,40 +148,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG, "activity CREATED");
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "activity RESUMED");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG, "activity PAUSED");
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.i(TAG, "activity STOPPED");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Log.i(TAG, "activity DESTROYED");
-    }
 
 
 }

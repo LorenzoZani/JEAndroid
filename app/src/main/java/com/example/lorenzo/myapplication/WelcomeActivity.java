@@ -12,9 +12,10 @@ import android.view.View.OnClickListener;
 
 import android.widget.TextView;
 
+import java.util.Objects;
+
 
 public class WelcomeActivity extends AppCompatActivity implements OnClickListener {
-    private static final String TAG = "WelcomeActivity";
 
     TextView welcomeTV;
     String email;
@@ -40,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity implements OnClickListene
             welcomeTV.setText(email);
         }
         else{
-            openedEmail=getIntent().getData().toString().substring(7);
+            openedEmail=Objects.requireNonNull(getIntent().getData()).toString().substring(7);
             openedEmail=Uri.decode(openedEmail);
             welcomeTV.setText(openedEmail);
         }

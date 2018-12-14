@@ -10,6 +10,8 @@
     <EditText
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
+        android:drawableStart="@drawable/baseline_email_black_18"
+        android:drawablePadding="5dp"
         android:hint = "Email"
         android:inputType="textEmailAddress"
         android:id="@+id/email_et"
@@ -24,6 +26,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/baseline_vpn_key_black_18"
+        android:drawablePadding="5dp"
         android:inputType="textPassword"
         android:id="@+id/password_et"
         android:textColorHint="@color/hint"
