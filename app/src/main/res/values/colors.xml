@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0608a3</color>
+    <color name="colorPrimaryDark">#02013e</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="odd">#998911</color>
+    <color name="even">#d10d0d</color>
+    <color name="large">#091f81</color>
+    <color name="display">#90a4ae</color>
+    <color name="number">#c81a237e</color>
+    <color name="operator">#091f81</color>
+    <color name="equal">#2e4dd6</color>
+    <color name="all">#575e80</color>
+    <color name="hint">#92051ad4</color>
+    <color name="nightBack">#212121</color>
+    <color name="black">#000000</color>
+    <color name="nightText">#92ffffff</color>
+    <color name="lightBack">#ffffff</color>
+</resources>
