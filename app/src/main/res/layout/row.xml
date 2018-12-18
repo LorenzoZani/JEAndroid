@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/lightBack">
+
+
+
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="3dp"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        tools:text="Milk" />
+
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_centerInParent="true"
+        android:textSize="20dp"
+        tools:text="2.oo€" />
+
+
+    <Button
+        android:id="@+id/plus_btn"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/item_quantity"
+        android:text="+"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/item_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/minus_btn"
+        android:padding="3dp"
+        android:text="1"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/minus_btn"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:padding="3dp"
+        android:text="-"
+        android:textSize="20dp" />
+
+
+
+
+
+</RelativeLayout>

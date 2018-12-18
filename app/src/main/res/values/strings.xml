@@ -26,4 +26,7 @@
     <string name="login_success">Successful login!</string>
     <string name="register_success">Registered successfully!</string>
     <string name="welcome">Benvenuto </string>
+    <string name="buy">Buy!</string>
+    <string name="total">Total</string>
+    <string name="euro">€</string>
 </resources>
