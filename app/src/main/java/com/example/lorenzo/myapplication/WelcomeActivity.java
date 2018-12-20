@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,11 +41,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
+
     public void mailSend() {
 
         final Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"deiv-93@hotmail.it"});
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, mail);
         emailIntent.putExtra(Intent.EXTRA_TEXT, "body text");
         startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
@@ -52,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     List<View> righe = new ArrayList<>();
 
     RecyclerView recyclerView;
+
     LinearLayoutManager layoutManager;
     FoodAdapter adapter;
 
@@ -63,6 +67,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         TextView mail_passata = findViewById(R.id.welcome_email_ed);
         buyBtn = findViewById(R.id.buy_btn);
+
         tot = findViewById(R.id.total_shop);
         progressBar=findViewById(R.id.progress_bar);
         progressBar.setMax(5);
@@ -77,8 +82,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
 
         Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
+
+
 
         if (intent.getData() != null) {
             faimail = Uri.decode(intent.getData().toString().substring(7));
@@ -98,13 +103,16 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         adapter = new FoodAdapter(this);
         adapter.setOnQuantityChange(this);
         getProducts();
-
         recyclerView = findViewById(R.id.food_rv);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
 
     }
+
+
+
+
 
 
     private void getProducts(){
@@ -122,18 +130,22 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                     public void onResponse(String response) {
                         Log.d("Success", response);
                         try {
-                            JSONObject responseJSON = new JSONObject(response);
-                            JSONArray jsonArray = responseJSON.getJSONArray("foods");
+                            JSONArray responseJSON = new JSONArray(response);
 
                             ArrayList<Food> foodArrayList = new ArrayList<>();
 
-                            for (int i=0; i<jsonArray.length(); i++) {
-                                Food food = new Food(jsonArray.getJSONObject(i));
-                                foodArrayList.add(food);
+                            for (int i=0; i<responseJSON.length(); i++) {
+                                Food food = new Food(responseJSON.getJSONObject(i));
+                                if (food.isAvailable()){
+                                    foodArrayList.add(food);
+                                }
+
                             }
+
                             adapter.setData(foodArrayList);
                         } catch (JSONException e){
                             e.printStackTrace();
+                            Toast.makeText(WelcomeActivity.this,"Qualcosa è andato storto",Toast.LENGTH_LONG);
                         }
                     }
                 },
@@ -149,6 +161,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
 
     }
+
 
 
     @Override

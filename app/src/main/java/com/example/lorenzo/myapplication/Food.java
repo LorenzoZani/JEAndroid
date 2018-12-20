@@ -1,6 +1,6 @@
 package com.example.lorenzo.myapplication;
 
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +8,18 @@ public class Food {
     private String name;
     private Float price;
     private int quantity=0;
+    private boolean available;
+
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+
+
+
+
+
 
     public Food (String name, Float price){
         this.name = name;
@@ -18,6 +30,8 @@ public class Food {
 
         name=food.getString("name");
         price= (float) food.getInt("price");
+        available=food.getBoolean("available");
+
 
     }
 
