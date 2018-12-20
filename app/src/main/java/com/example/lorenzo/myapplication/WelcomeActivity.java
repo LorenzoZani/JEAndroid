@@ -6,10 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +34,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     TextView tot;
     float total;
     Button buyBtn;
+    ProgressBar progressBar;
+    float totForBar=0f;
 
 
 
@@ -49,6 +64,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         TextView mail_passata = findViewById(R.id.welcome_email_ed);
         buyBtn = findViewById(R.id.buy_btn);
         tot = findViewById(R.id.total_shop);
+        progressBar=findViewById(R.id.progress_bar);
+        progressBar.setMax(5);
+        progressBar.setProgress(0);
 
 
         mail = getIntent().getStringExtra("EMAIL");
@@ -72,29 +90,62 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         layoutManager = new LinearLayoutManager(this);
 
-        ArrayList<Food> foodList = new ArrayList<>();
-
-        foodList.add(new Food("bread", "1", "0"));
-        foodList.add(new Food("milk", "2", "0"));
-        foodList.add(new Food("meat", "3.50", "0"));
-        foodList.add(new Food("bread", "1", "0"));
-        foodList.add(new Food("milk", "2", "0"));
-        foodList.add(new Food("meat", "3.50", "0"));
-        foodList.add(new Food("bread", "1", "0"));
-        foodList.add(new Food("milk", "2", "0"));
-        foodList.add(new Food("meat", "3.50", "0"));
-        foodList.add(new Food("bread", "1", "0"));
-        foodList.add(new Food("milk", "2", "0"));
-        foodList.add(new Food("meat", "3.50", "0"));
 
 
-        adapter = new FoodAdapter(this, foodList);
+
+
+
+        adapter = new FoodAdapter(this);
         adapter.setOnQuantityChange(this);
-
+        getProducts();
 
         recyclerView = findViewById(R.id.food_rv);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+
+    }
+
+
+    private void getProducts(){
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="https://5ba19290ee710f0014dd764c.mockapi.io/Food";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Success", response);
+                        try {
+                            JSONObject responseJSON = new JSONObject(response);
+                            JSONArray jsonArray = responseJSON.getJSONArray("foods");
+
+                            ArrayList<Food> foodArrayList = new ArrayList<>();
+
+                            for (int i=0; i<jsonArray.length(); i++) {
+                                Food food = new Food(jsonArray.getJSONObject(i));
+                                foodArrayList.add(food);
+                            }
+                            adapter.setData(foodArrayList);
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.getMessage());
+                    }
+                });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
 
 
     }
@@ -114,7 +165,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         Float newQuantity = (Float.parseFloat(tot.getText().toString()));
         newQuantity += price;
+        totForBar+=price;
         tot.setText(String.valueOf(newQuantity));
+        progressBar.setProgress((int) totForBar);
         if(newQuantity>=5){
             buyBtn.setEnabled(true);
         }else buyBtn.setEnabled(false);
@@ -125,6 +178,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Float newQuantity = (Float.parseFloat(tot.getText().toString()));
         if (newQuantity > 0.99) {
             newQuantity -= price;
+            totForBar-=price;
+            progressBar.setProgress((int) totForBar);
             tot.setText(String.valueOf(newQuantity));
         }
         if(newQuantity>=5){

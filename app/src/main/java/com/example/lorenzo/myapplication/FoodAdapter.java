@@ -5,21 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.w3c.dom.Text;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 public class FoodAdapter extends RecyclerView.Adapter {
     private LayoutInflater mInflater;
-    private ArrayList<Food> data;
+    private ArrayList<Food> data=new ArrayList<>();
     public OnQuantityChanged onQuantityChange;
+
+
 
     public interface OnQuantityChanged {
         public void onItemAdded(float price);
@@ -36,6 +32,15 @@ public class FoodAdapter extends RecyclerView.Adapter {
         mInflater = LayoutInflater.from(context);
     }
 
+    public FoodAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
+    }
+    public void setData(ArrayList<Food> data) {
+        this.data=data;
+        notifyDataSetChanged();
+
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -47,8 +52,8 @@ public class FoodAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         FoodViewHolder foodViewHolder = (FoodViewHolder) viewHolder;
         foodViewHolder.productName.setText(data.get(i).getName());
-        foodViewHolder.productPrice.setText(data.get(i).getPrezzo());
-        foodViewHolder.productQuantity.setText((data.get(i).getQuantity()));
+        foodViewHolder.productPrice.setText(String.valueOf(data.get(i).getPrice()));
+        foodViewHolder.productQuantity.setText(String.valueOf(data.get(i).getQuantity()));
     }
 
     @Override
@@ -82,15 +87,14 @@ public class FoodAdapter extends RecyclerView.Adapter {
                 Food food = data.get(getAdapterPosition());
                 food.increaseQuantity();
                 notifyItemChanged(getAdapterPosition());
-                onQuantityChange.onItemAdded(Float.parseFloat(food.getPrezzo()));
-            }
-            if (v.getId() == minusBtn.getId()) {
+                onQuantityChange.onItemAdded(food.getPrice());
+            }else if (v.getId() == minusBtn.getId()) {
 
                 Food food = data.get(getAdapterPosition());
-                Integer itemNumber = Integer.parseInt(food.getQuantity());
+                Integer itemNumber =food.getQuantity();
                 if (itemNumber > 0) {
                     food.decreaseQuantity();
-                    onQuantityChange.onItemRemoved(Float.parseFloat(food.getPrezzo()));
+                    onQuantityChange.onItemRemoved(food.getPrice());
                     notifyItemChanged(getAdapterPosition());
                 }
             }

@@ -1,15 +1,29 @@
 package com.example.lorenzo.myapplication;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Food {
-    public Food (String name, String prezzo, String quantity){
+    private String name;
+    private Float price;
+    private int quantity=0;
+
+    public Food (String name, Float price){
         this.name = name;
-        this.quantity = quantity;
-        this.prezzo = prezzo;
+        this.price = price;
+    }
+
+    public Food(JSONObject food) throws JSONException {
+
+        name=food.getString("name");
+        price= (float) food.getInt("price");
+
     }
 
 
 
-    private String name;
+
 
     public String getName() {
         return name;
@@ -17,31 +31,31 @@ public class Food {
 
 
 
-    private String prezzo;
 
-    public String getPrezzo() {
-        return prezzo;
+
+    public Float getPrice() {
+        return price;
     }
 
 
 
-    private String quantity;
 
-    public String getQuantity() {
+
+    public int getQuantity() {
         return quantity;
     }
 
 
     public void increaseQuantity(){
-        int a =Integer.parseInt(quantity);
+        int a =quantity;
         a++;
-        quantity = String.valueOf(a);
+        quantity = a;
     }
     public void decreaseQuantity(){
-        int a =Integer.parseInt(quantity);
+        int a =(quantity);
         if (a>0) {
             a--;
         }
-        quantity = String.valueOf(a);
+        quantity = a;
     }
 }
